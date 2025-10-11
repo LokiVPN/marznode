@@ -28,11 +28,11 @@ class XrayBackend(VPNBackend):
     config_format = 1
 
     def __init__(
-        self,
-        executable_path: str,
-        assets_path: str,
-        config_path: str,
-        storage: BaseStorage,
+            self,
+            executable_path: str,
+            assets_path: str,
+            config_path: str,
+            storage: BaseStorage,
     ):
         self._config = None
         self._inbound_tags = set()
@@ -121,7 +121,14 @@ class XrayBackend(VPNBackend):
 
         account_class = accounts_map[inbound.protocol]
         flow = inbound.config["flow"] or ""
-        logger.debug(flow)
+        logger.debug(
+            "Trying to add user",
+            extra={
+                "email": email,
+                "inbound": inbound.tag,
+                "protocol": inbound.protocol
+            }
+        )
         user_account = account_class(
             email=email,
             seed=user.key,

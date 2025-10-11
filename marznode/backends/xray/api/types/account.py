@@ -6,7 +6,7 @@ from enum import Enum
 from typing import Optional
 from uuid import UUID
 
-from pydantic import BaseModel, field_validator, ValidationInfo, ValidationError, Field
+from pydantic import BaseModel, field_validator, ValidationInfo, Field
 
 from .message import Message
 from ..proto.common.serial.typed_message_pb2 import TypedMessage
@@ -41,7 +41,7 @@ class Account(BaseModel, ABC):
                 return generate_uuid(seed)
             elif info.field_name == "password":
                 return generate_password(seed)
-        raise ValidationError("Both password/id and seed are empty")
+        raise ValueError("Both password/id and seed are empty")
 
     def __repr__(self) -> str:
         return f"<{self.__class__.__name__} {self.email}>"
