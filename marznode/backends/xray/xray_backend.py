@@ -3,7 +3,10 @@
 import asyncio
 import json
 import logging
+import uuid
 from collections import defaultdict
+
+import xxhash
 
 from marznode.backends.abstract_backend import VPNBackend
 from marznode.backends.xray._config import XrayConfig
@@ -130,6 +133,7 @@ class XrayBackend(VPNBackend):
             }
         )
         user_account = account_class(
+            id=str(uuid.UUID(bytes=xxhash.xxh128(user.key.encode()).digest())),
             email=email,
             seed=user.key,
             flow=flow,
