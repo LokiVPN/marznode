@@ -132,12 +132,26 @@ class XrayBackend(VPNBackend):
                 "protocol": inbound.protocol
             }
         )
-        user_account = account_class(
-            id=str(uuid.UUID(bytes=xxhash.xxh128(user.key.encode()).digest())),
-            email=email,
-            seed=user.key,
-            flow=flow,
-        )
+
+        if inbound.protocol == "vless":
+            user_account = account_class(
+                id=str(uuid.UUID(bytes=xxhash.xxh128(user.key.encode()).digest())),
+                email=email,
+                seed=user.key,
+                flow=flow,
+            )
+        elif inbound.protocol == "shadowsocks":
+            user_account = account_class(
+                password=user.key,
+                email=email,
+                seed=user.key,
+            )
+        else:
+            user_account = account_class(
+                id=str(uuid.UUID(bytes=xxhash.xxh128(user.key.encode()).digest())),
+                email=email,
+                seed=user.key,
+            )
 
         try:
             await self._api.add_inbound_user(inbound.tag, user_account)
