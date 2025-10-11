@@ -151,7 +151,7 @@ class XrayConfig(dict):
                     pvk = tls_settings.get("privateKey")
 
                     x25519 = get_x25519(XRAY_EXECUTABLE_PATH, pvk)
-                    settings["pbk"] = x25519["public_key"]
+                    settings["pbk"] = x25519["password"]
 
                     settings["sid"] = tls_settings.get("shortIds", [""])[0]
 
