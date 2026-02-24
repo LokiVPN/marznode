@@ -16,8 +16,13 @@ RUN mkdir /etc/init.d/
 
 RUN apk add --no-cache curl unzip
 
-RUN curl -L https://github.com/XTLS/Xray-install/raw/main/alpinelinux/install-release.sh | ash
-
+RUN ARCH=$(case "$(uname -m)" in x86_64) echo "64";; aarch64) echo "arm64-v8a";; esac) && \
+    curl -L -o /tmp/xray.zip "https://github.com/XTLS/Xray-core/releases/latest/download/Xray-linux-${ARCH}.zip" && \
+    unzip /tmp/xray.zip -d /tmp/xray && \
+    mv /tmp/xray/xray /usr/local/bin/xray && \
+    chmod +x /usr/local/bin/xray && \
+    rm -rf /tmp/xray /tmp/xray.zip
+    
 RUN apk add --no-cache alpine-sdk libffi-dev && pip install --no-cache-dir -r /app/requirements.txt && apk del -r alpine-sdk libffi-dev curl unzip
 
 CMD ["python3", "marznode.py"]
