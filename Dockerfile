@@ -14,9 +14,9 @@ COPY . .
 
 RUN mkdir /etc/init.d/
 
-RUN apk add --no-cache curl unzip bash
+RUN apk add --no-cache curl unzip
 
-RUN bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install
+RUN curl -O -L https://github.com/XTLS/Xray-install/raw/main/alpinelinux/install-release.sh | ash
 
 RUN apk add --no-cache alpine-sdk libffi-dev && pip install --no-cache-dir -r /app/requirements.txt && apk del -r alpine-sdk libffi-dev curl unzip
 
