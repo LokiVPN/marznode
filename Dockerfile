@@ -22,6 +22,10 @@ RUN ARCH=$(case "$(uname -m)" in x86_64) echo "64";; aarch64) echo "arm64-v8a";;
     mv /tmp/xray/xray /usr/local/bin/xray && \
     chmod +x /usr/local/bin/xray && \
     rm -rf /tmp/xray /tmp/xray.zip
+
+RUN mkdir -p /usr/local/share/xray && \
+    curl -L -o /usr/local/share/xray/geoip.dat https://github.com/v2fly/geoip/releases/latest/download/geoip.dat && \
+    curl -L -o /usr/local/share/xray/geosite.dat https://github.com/v2fly/domain-list-community/releases/latest/download/dlc.dat
     
 RUN apk add --no-cache alpine-sdk libffi-dev && pip install --no-cache-dir -r /app/requirements.txt && apk del -r alpine-sdk libffi-dev curl unzip
 
