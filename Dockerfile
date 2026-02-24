@@ -14,7 +14,7 @@ COPY . .
 
 RUN mkdir /etc/init.d/
 
-RUN apk add --no-cache curl unzip
+RUN apk add --no-cache curl unzip bash
 
 RUN bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install
 
